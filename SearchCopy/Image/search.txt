@@ -1,0 +1,242 @@
+
+// DVR Search Image Files(CCTV) - fULL HD-NVR
+ 
+[Search Main]
+Main Skin=search_main.bmp,0,0,1920,1080,ID_MAIN,0
+BackupMain Skin=backupsearch_main.bmp,0,0,0,0,ID_MAIN,0
+Logo=logo.bmp,0,0,0,0,ID_BT_LOGO,48
+Moving=0
+CamPerGroup=4
+MaxGroup=5
+SpeedOption=0
+CamNameOption=2
+
+
+[View Position]
+View Main=9,9,1556,926
+
+[Search Timebar]
+Cam_Down=cam_down.bmp,9,954,25,23,ID_BT_CAMDOWN,1
+Cam_up=cam_up.bmp,9,1036,25,23,ID_BT_CAMUP,2
+//Cam_analog=analog.bmp,35,620,90,20,ID_BT_CAMANALOG,8
+//Cam_ip=ip.bmp,128,620,90,20,ID_BT_CAMIP,7
+MINTIME=min.bmp,0,0,0,0,ID_BT_MINTIME,49
+CamGroup=cam1_16.bmp,34,964,360,94,ID_BT_CAM1_4,3
+
+
+//Camera name position
+optFontCamera=16,6,1,0,0,Arial
+optPosTime=15,616,212,640
+optPosCamera1=80,1000,208,950
+optPosCamera2=80,1009,208,989
+optPosCamera3=80,1032,208,1014
+optPosCamera4=80,1063,208,1030
+optPosBar=0,0,0,0
+rgbCameraText=70,70,70
+
+[Timebar VScroll]
+ScrollBar=dummy.bmp,9,964,25,116,ID_BT_NONE,255
+ScrollBarUp=VScrollUp.bmp,0,0,25,22,ID_BT_NONE,255
+ScrollBarDown=VScrollDown.bmp,0,93,25,22,ID_BT_NONE,255
+ScrollBarThumb=VScrollThumb.bmp,0,0,25,24,ID_BT_NONE,255
+ScrollBarSpan=VScrollSpan.bmp,0,0,25,1,ID_BT_NONE,255
+
+
+
+[Search Screen]
+Split_1=split_1.bmp,1567,138,47,46,ID_BT_CH1,23
+Split_4=split_4.bmp,1567,185,47,46,ID_BT_CH4,24
+Split_9=split_9.bmp,1567,232,47,46,ID_BT_CH9,25
+Split_16=split_16.bmp,1567,279,47,46,ID_BT_CH16,26
+//Split_25=split_25.bmp,754,127,29,29,ID_BT_CH16,60
+//Split_36=split_36.bmp,754,157,29,29,ID_BT_CH16,61
+
+Ch_next=dummy.bmp,0,0,0,0,ID_BT_CHNEXT,27
+Full=full.bmp,1567,326,47,46,ID_BT_FULL,32
+Panorama=panorama.bmp,1567,561,47,46,ID_BT_CHPANORAMA,28
+pzoom=zoom_btn.bmp,1567,514,47,46,ID_BT_ZOOM,38
+
+
+[Search Button]
+bookmark_add=bookmark_add.bmp,1567,796,47,46,ID_BT_BOOKMARK_ADD,54
+bookmark=bookmark_list.bmp,1567,843,47,46,ID_BT_BOOKMARK,53
+
+selectfolder=selectsource.bmp,1651,704,242,45,ID_BT_SELECTFOLDER,55
+Save=save.bmp,1651,806,242,45,ID_BT_SAVE,33
+Smartsearch=smartsearch.bmp,1651,755,242,45,ID_BT_SMARTSEARCH,34
+Adjustment=adjustment.bmp,1651,908,242,45,ID_BT_ADJUSTMENT,36
+Print=print.bmp,1651,857,242,45,ID_BT_PRINT,37
+
+Logviewer=logview.bmp,0,0,0,0,ID_BT_LOGVIEWER,56
+Backup=backup.bmp,0,0,0,0,ID_BT_BACKUP,57
+
+Exit=exit.bmp,1632,1014,272,49,ID_BT_EXIT,47
+TimeSearch=timesearch.bmp,1567,608,47,46,ID_BT_TIMESEARCH,58
+playcontrol=playcontrol.bmp,0,0,0,0,ID_BT_PLAYCONTROL,59
+Setup=setup.bmp,1567,890,47,46,ID_BT_SETUP,60
+
+[Search Play]
+PlayB1MinStep=PlayB1MinStep.bmp,1711,577,38,22,ID_BT_PLAYB1MINSTEP,39
+PlayB1Step=PlayB1Step.bmp,1727,470,27,21,ID_BT_PLAYB1STEP,40
+
+PlayF1MinStep=PlayF1MinStep.bmp,1792,577,38,22,ID_BT_PLAYF1MINSTEP,41
+PlayF1Step=PlayF1Step.bmp,1789,470,27,21,ID_BT_PLAYF1STEP,42
+
+PlayForward=PlayForward.bmp,1741,504,60,60,ID_BT_PLAYFORWARD,43
+PlayReverse=PlayReverse.bmp,1693,523,21,21,ID_BT_PLAYREVERSE,44
+Playstop=Playstop.bmp,1825,523,20,21,ID_BT_PLAYSTOP,45
+
+Realtime=realtime.bmp,1833,615,63,27,ID_BT_REALTIME,46
+
+
+[Search ColorTool]
+ColorMain=color_main.bmp,1432,655,185,194,ID_BT_ADJUSTMENTBACK,52
+ColorSharpen=sharpen.bmp,17,136,48,19,ID_BT_COLSHARPEN,1
+ColorBlur=blur.bmp,69,136,48,19,ID_BT_COLBLUR,2
+ColorGray=gray.bmp,121,136,48,19,ID_BT_COLGRAY,3
+ColorUndo=undo.bmp,121,159,48,19,ID_BT_COLUNDO,4
+ColorZoom=zoomtool.bmp,69,159,48,19,ID_BT_COLZOOM,5
+ColorOriginal=original.bmp,17,159,48,19,ID_BT_COLORIGINAL,6
+ColorExit=colorexit.bmp,151,6,20,13,ID_BT_COLOREXIT,7
+
+[Text INFO]
+backimage=1646,110,250,96
+DateTextRect=0,0,250,24
+TimeTextRect=0,0,250,24
+CameraTextRect=0,0,250,24
+SizeTextRect=0,0,250,24
+rgbBack=0,0,0
+rgbDateInfo=255,255,0
+rgbTimeInfo=0,255,0
+rgbCameraInfo=0,255,255
+rgbSizeInfo=241,241,241
+
+
+[Search Calendar]
+CalPos=1646,230,250,188
+FontSize=16
+
+rgbWB=72,72,72
+rgbDB=0,0,0
+rgbWT=242,242,242
+rgbDT=108,108,108
+rgbDS=255,0,0
+rgbDataExist=0,0,0
+rgbVocDataExist=0,0,0
+rgbDataExistText=255,255,0
+rgbYearMonBGC=0,0,0
+rgbBackUpDown=2,11,23
+rgbMonthYearText=255,255,255
+rgbUpDown=255,255,255
+
+
+[TimeBar Data]
+TimeBarGridPos=404,941,1160,120
+rgbTimeBarDataBack=60,60,60
+
+rgbConDataExist=000,255,128
+rgbSenDataExist=251,169,96
+rgbMotDataExist=255,255,000
+rgbWatchDataExist=196,196,255
+rgbSenMotDataExist=255,196,220
+rgbConEveDataExist=158,222,251
+rgbOutModeDataExist=196,196,255
+
+rgbVConDataExist=0,128,64
+rgbVSenDataExist=179,81,0
+rgbVMotDataExist=128,128,0
+rgbVWatchDataExist=68,68,255
+rgbVSenMotDataExist=255,68,142
+rgbVConEveDataExist=35,183,245
+rgbVOutModeDataExist=68,68,255
+
+rgbOnlyVDataExist=0,0,255
+rgbDataNoExist=226,226,255
+rgbDataExitPen=255,255,255
+rgbDataNoExistPen=255,255,255
+rgbDataSelect=255,0,0
+
+rgbBtnTextBack=150,150,150
+rgbBtnPush=0,0,0
+rgbText=0,0,0
+rgbTextBack=150,150,150
+
+
+[Search Slider]
+//ThumbTimebar=speed.bmp,0,0,0,0,ID,0
+//ChannelTimebar=sliderback.bmp,0,0,0,0,ID,0
+TimebarSliderPos=393,1059,1172,146
+TimebarStart=0
+TimebarEnd=144
+TimebarTic=1
+TimebarDefault=0
+rgbSliderBack=0,0,0 
+rgbSliderChannel=255,255,255
+rgbSliderThumb=255,0,0
+
+
+[Search speedSlider]
+SpeedSlider=speedslider.bmp,0,0,0,0,ID,0
+SpeedBack	=0,0,93,16
+SpeedChannel	=0,0,93,16
+SpeedThumb	=99,0,11,16
+SpeedStart=0
+SpeedEnd=6
+SpeedTic=1
+SpeedDefault=3
+rgbSliderThumb=255,0,0
+x2Speed=500
+x4Speed=250
+
+
+[Search BrightSlider] 
+BrightSlider=colorslider.bmp,17,43,152,16,ID,0
+BrightBack	=0,0,152,16
+BrightChannel	=0,0,152,16
+BrightThumb	=153,0,11,16
+BrightStart=-128
+BrightEnd=127
+BrightTic=1
+BrightDefault=0
+rgbSliderThumb=255,0,0
+
+[Search ContrastSlider]
+ContrastSlider=colorslider.bmp,17,74,152,16,ID,0
+ContrastBack	=0,0,152,16
+ContrastChannel	=0,0,152,16
+ContrastThumb	=153,0,11,16
+ContrastStart=35
+ContrastEnd=180
+ContrastTic=1
+ContrastDefault=36
+rgbSliderThumb=255,0,0
+
+[Search HueSlider]
+hueSlider=colorslider.bmp,17,106,152,16,ID,0
+HueBack		=0,0,152,16
+HueChannel	=0,0,152,16
+HueThumb	=153,0,11,16
+HueStart=-128
+HueEnd=127
+HueTic=1
+HueDefault=0
+rgbSliderThumb=255,0,0
+
+
+[Full Play]
+fullcontrol=fullcontrol_main.bmp,800,722,223,46,ID_FULLCONTROL,0
+stopfull=fullstop.bmp,65,3,38,40,ID_BT_STOPFULL,1
+playfull=fullnext.bmp,111,3,38,40,ID_BT_PLAYFULL,2
+backfull=fullback.bmp,19,3,38,40,ID_BT_BACKFULL,3
+exitfull=fullexit.bmp,168,4,46,39,ID_BT_EXITFULL,4
+
+
+[Zoom Navigator]
+Zoom Window=zoomdlg.bmp,1450,330,320,240,ID,0
+
+
+[Speed View]
+pos=1755,578,31,24
+rgbBack=22,22,22
+rgbText=255,255,255
+optFont=16,10,1,0,0,Arial
