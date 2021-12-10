@@ -12,6 +12,7 @@
 #define new DEBUG_NEW
 #endif
 
+long CSearchCopyDlg::m_Split = 1;
 
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
@@ -134,13 +135,13 @@ BOOL CSearchCopyDlg::OnInitDialog()
 
 	char	szText[MAX_PATH];
 	CRect	rect;
-	sprintf(szText, "%s", theApp.m_SearchImage.IniFileReadStringEx("Speed View", "Pos", "0,0,0,0"));
+	//sprintf_s(szText, "%s", theApp.m_SearchImage.IniFileReadStringEx("Speed View", "Pos", "0,0,0,0"));
 	rect = theApp.m_ImageFunc.AnalyzeRect2(szText);
 	COLORREF	rgbSVBack = theApp.m_ImageFunc.AnalyzeRGB(theApp.m_SearchImage.IniFileReadStringEx("Speed View", "rgbBack", "0,0,0"));
 	COLORREF	rgbSVTect = theApp.m_ImageFunc.AnalyzeRGB(theApp.m_SearchImage.IniFileReadStringEx("Speed View", "rgbText", "240,255,0"));
 	CString		strFont = theApp.m_SearchImage.IniFileReadStringEx("Speed View", "optFont", "14,6,1,0,0,Arial");
-	m_ViewSpeed->InitCtrl(rgbSVBack, rgbSVTect, strFont);
-	m_ViewSpeed->MoveWindow(rect.left, rect.top, rect.Width(), rect.Height());
+	//m_ViewSpeed->InitCtrl(rgbSVBack, rgbSVTect, strFont);
+	//m_ViewSpeed->MoveWindow(rect.left, rect.top, rect.Width(), rect.Height());
 
 	ShowWindow(SW_SHOW);
 
@@ -186,11 +187,11 @@ void CSearchCopyDlg::SetSplit(long nSplit)
 	BOOL	bfSplitDown;
 
 	//이전 분할모드 선택 그림을 clear한다.
-	//if (nOldMode == 1)			m_BtnSplit[0].Refresh();
-	//else if (nOldMode == 4)		m_BtnSplit[1].Refresh();
-	//else if (nOldMode == 9)		m_BtnSplit[2].Refresh();
-	//else if (nOldMode == 16)	m_BtnSplit[3].Refresh();
-	//else						return;
+	if (nOldMode == 1)			m_BtnSplit[0].Refresh();
+	else if (nOldMode == 4)		m_BtnSplit[1].Refresh();
+	else if (nOldMode == 9)		m_BtnSplit[2].Refresh();
+	else if (nOldMode == 16)	m_BtnSplit[3].Refresh();
+	else						return;
 
 	if (m_Split > nSplit)
 	{
@@ -204,27 +205,27 @@ void CSearchCopyDlg::SetSplit(long nSplit)
 	m_Split = nSplit;
 
 	// 새로이 선택한 분할모드 선택된 그림으로 채운다.
-	//if (m_Split == 1)
-	//{
-	//	m_SplitPage = m_nCurCam;
-	//	m_BtnSplit[0].Refresh();
-	//}
-	//else if (m_Split == 4)
-	//{
-	//	m_SplitPage = m_nCurCam / 4;
-	//	m_BtnSplit[1].Refresh();
-	//}
-	//else if (m_Split == 9)
-	//{
-	//	m_SplitPage = m_nCurCam / 9;
-	//	m_BtnSplit[2].Refresh();
-	//}
-	//else if (m_Split == 16)
-	//{
-	//	m_SplitPage = m_nCurCam / 16;
-	//	m_BtnSplit[3].Refresh();
-	//}
-	//
+	if (m_Split == 1)
+	{
+		m_SplitPage = m_nCurCam;
+		m_BtnSplit[0].Refresh();
+	}
+	else if (m_Split == 4)
+	{
+		m_SplitPage = m_nCurCam / 4;
+		m_BtnSplit[1].Refresh();
+	}
+	else if (m_Split == 9)
+	{
+		m_SplitPage = m_nCurCam / 9;
+		m_BtnSplit[2].Refresh();
+	}
+	else if (m_Split == 16)
+	{
+		m_SplitPage = m_nCurCam / 16;
+		m_BtnSplit[3].Refresh();
+	}
+
 	//m_idMagnification = ID_BT_X2ZOOM;
 
 	// 확대 모드를 보통으로 설정한다
@@ -240,6 +241,8 @@ void CSearchCopyDlg::SetSplit(long nSplit)
 	//SplitScreenUpdate(nSplit, bfSplitDown);
 }
 
+
+
 void CSearchCopyDlg::InitSearch()
 {
 	//for (int i = 0; i < MAX_VIEW; i++)
@@ -249,6 +252,102 @@ void CSearchCopyDlg::InitSearch()
 	//	m_Win[i]->SetArea(&rc); //t
 	//}
 }
+
+
+void CSearchCopyDlg::SplitScreenUpdate(long nSplit, BOOL bfSplitDown)
+{
+	//	EnterCriticalSection(&m_CriticalPlay);
+
+	DWORD dw = WAIT_TIMEOUT;
+	m_bReadDataThreadPause = TRUE;
+	ResetEvent(hevent_readdatathread_start);
+	SetEvent(hevent_readdatathread_pause);
+	dw = WaitForSingleObject(hevent_readdata_paused, 200);
+	MSG msg;
+	if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE)) {
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+		
+	int		i;
+	for (i = 0; i < MAX_VIEW; i++) {
+		m_Win[i]->m_bShow = FALSE;
+	}
+	CWindow::m_ddraw->EmptyCanvas(); //t
+
+	if (bfSplitDown == TRUE)
+	{
+		for (i = 0; i < MAX_CHANNEL; i++)
+		{
+			if (i != m_nCurCam)
+			{
+				m_bIFramepass[i] = FALSE;
+			}
+		}
+	}
+
+
+	//for (i = 0; i < MAX_VIEW; i++)
+	//{
+	//	m_Win[i]->FlushBuffer();
+	//}
+	memset(m_btUsedChannel, 0x00, sizeof(m_btUsedChannel));
+	memset(m_ViewChannel, 0x00, sizeof(m_ViewChannel));
+
+	//	TRACE("SplitScreenUpdateF(%d, %c)\n", nSplit, bfSplitDown?'T':'F');
+
+		///////////////////////////////////////////////////////////////////
+	int		nSplitPage = m_SplitPage;
+
+	//t	if (m_nScreenMode)
+	CRect	rc[MAX_VIEW]; //t
+	//	switch (nSplit)
+	//	{
+	//	case 4:
+	//		m_bMulti = TRUE;  // 멀티 상태임을 의미
+	//		for (i = 0; i < 4; i++) { //t
+	//			rc[i] = GetSplit4Pos(i); //t
+	//		} //t
+
+	//		for (i = 0; i < MAX_VIEW; i++)
+	//		{
+	//			//t				CRect	rc;
+	//			//t				rc = GetSplit4Pos(i);
+
+	//			if (nSplit * nSplitPage <= i && i < nSplit * (nSplitPage + 1))
+	//			{
+	//				if (m_iPanoPush && i != m_nCurCam)
+	//				{
+	//					m_Win[i]->m_bImageReady = FALSE;
+	//				}
+	//				m_btUsedChannel[i] = 1;
+	//				m_ViewChannel[i] = TRUE;
+	//				m_Win[i]->SetArea(&rc[i % 4]); //t
+	//				m_Win[i]->m_bShow = TRUE;
+	//				m_Win[i]->DrawImage();
+	//			}
+	//			else
+	//			{
+	//				CRect rt = CRect(0, 0, 0, 0); //t
+	//				m_Win[i]->SetArea(&rt); //t
+	//				m_Win[i]->m_bImageReady = FALSE;	// add GSS
+	//				m_Win[i]->m_bShow = FALSE;
+	//			}
+	//		}
+	//		m_FindFS->SetUsedChannels(m_btUsedChannel);
+	//		break;
+	//	}
+	//if (m_PlayID != ID_PL_STOP)
+	//{
+	//	//		TRACE("readdata thread started\n");
+	//	ResetEvent(hevent_readdatathread_pause);
+	//	SetEvent(hevent_readdatathread_start);
+	//}
+
+	//	LeaveCriticalSection(&m_CriticalPlay);
+}
+
+
 
 void CSearchCopyDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {

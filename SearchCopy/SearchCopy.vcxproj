@@ -183,8 +183,10 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CDrawVideoClass.h" />
     <ClInclude Include="CFileEx.h" />
     <ClInclude Include="CImageEx.h" />
+    <ClInclude Include="CWindow.h" />
     <ClInclude Include="CWndObj.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
@@ -196,8 +198,10 @@
     <ClInclude Include="ViewSpeed.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CDrawVideoClass.cpp" />
     <ClCompile Include="CFileEx.cpp" />
     <ClCompile Include="CImageEx.cpp" />
+    <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="CWndObj.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

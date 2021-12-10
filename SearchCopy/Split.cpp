@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "SearchCopy.h"
 #include "Split.h"
-#include "CWndObj.h"
+//#include "CWndObj.h"
 
 
 // Split

@@ -5,12 +5,12 @@
 #include "CFileEx.h"
 #include "ViewSpeed.h"
 #include "Split.h"
+#include "CWindow.h"
 
 #define MAX_VIEW 64
 
 #pragma once
 
-long CSearchCopyDlg::m_Split = 1;
 
 // CSearchCopyDlg 대화 상자
 class CSearchCopyDlg : public CDialogEx
@@ -24,26 +24,40 @@ public:
 	void InitSearch();
 	void OnMainLogoLoad();
 	void SetSplit(long nSplit);
-
-
+	void SplitScreenUpdate(long nSplit, BOOL bfSplitDown = FALSE);
+	
 	WORD		m_wGUIWidth, m_wGUIHeight;
 	CBitmap* m_hMainBitmap;
 	CBitmap* m_hMainLogoBitmap;
 	CDC* m_pDc;
+
+	UINT m_PlayID;
 
 	Split		m_BtnSplit[4];
 
 	CFileEx		m_SearchImage;
 	CFileEx		m_LogoImage;
 
+	CWindow* m_Win[MAX_VIEW];
+
 	CString		m_strImageFolder;
 	CString		m_strSysPathUpper;
 
+	BOOL		m_bReadDataThreadPause;
+	HANDLE		hevent_readdatathread_start;
+	HANDLE		hevent_readdatathread_pause;
+	HANDLE		hevent_readdatathread_stop;
+	HANDLE		hevent_readdata_paused;
+	BOOL		m_bReadDataThreadStop;
 	int			m_SplitPage;
 	long		m_nCurCam;
+	BOOL		m_bIFramepass[MAX_CHANNEL];
 
 	CImageEx	m_ImageFunc;
 	ViewSpeed* m_ViewSpeed;
+
+	BYTE			m_btUsedChannel[128];
+	BOOL			m_ViewChannel[MAX_VIEW];
 
 	static long		m_Split;
 	
