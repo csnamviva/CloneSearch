@@ -8,7 +8,7 @@
 
 // CFileEx
 
-IMPLEMENT_DYNAMIC(CFileEx, CWnd)
+//IMPLEMENT_DYNAMIC(CFileEx, CWnd)
 
 CFileEx::CFileEx()
 {
@@ -36,8 +36,8 @@ CString CFileEx::IniFileReadStringEx(LPCTSTR lpAppName, LPCTSTR lpKeyName, LPCTS
 
 
 
-BEGIN_MESSAGE_MAP(CFileEx, CWnd)
-END_MESSAGE_MAP()
+//BEGIN_MESSAGE_MAP(CFileEx, CWnd)
+//END_MESSAGE_MAP()
 
 
 

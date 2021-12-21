@@ -23,9 +23,14 @@ public:
 // 재정의입니다.
 public:
 	virtual BOOL InitInstance();
+
+
+	CString			m_strImageFolder;
+	CFileEx			m_SearchImage;
+	CFileEx			m_LogoImage;
 	CImageEx	m_ImageFunc;
-	CFileEx		m_SearchImage;
-	CString		m_strImageFolder;
+	
+	
 	float w_ratio;
 	float h_ratio;
 

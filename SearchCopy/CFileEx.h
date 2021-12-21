@@ -3,10 +3,8 @@
 
 // CFileEx
 
-class CFileEx : public CWnd
+class CFileEx
 {
-	DECLARE_DYNAMIC(CFileEx)
-
 public:
 	CString m_strFileName;
 
@@ -15,9 +13,6 @@ public:
 
 	CString IniFileReadStringEx(LPCTSTR lpAppName, LPCTSTR lpKeyName, LPCTSTR lpDefaultName);
 
-
-protected:
-	DECLARE_MESSAGE_MAP()
 };
 
 

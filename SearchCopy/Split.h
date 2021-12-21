@@ -14,7 +14,6 @@ public:
 
 	CBitmap* m_pbmpSplit;
 
-
 protected:
 	DECLARE_MESSAGE_MAP()
 };

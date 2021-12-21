@@ -90,7 +90,7 @@
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -183,11 +183,34 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAdjustment.h" />
+    <ClInclude Include="CameraGroup.h" />
+    <ClInclude Include="CameraUpDown.h" />
+    <ClInclude Include="CBackup.h" />
+    <ClInclude Include="CBookMark.h" />
     <ClInclude Include="CDrawVideoClass.h" />
+    <ClInclude Include="CExit.h" />
     <ClInclude Include="CFileEx.h" />
+    <ClInclude Include="CFileSystem.h" />
+    <ClInclude Include="CHourMin.h" />
     <ClInclude Include="CImageEx.h" />
+    <ClInclude Include="CLogViewer.h" />
+    <ClInclude Include="CPanorama.h" />
+    <ClInclude Include="CPlaySearch.h" />
+    <ClInclude Include="CPlayTab.h" />
+    <ClInclude Include="CPrint.h" />
+    <ClInclude Include="CPZoomBtn.h" />
+    <ClInclude Include="CRealPlay.h" />
+    <ClInclude Include="CSave.h" />
+    <ClInclude Include="CSelectFolder.h" />
+    <ClInclude Include="CSetup.h" />
+    <ClInclude Include="CSkinVerticleScrollbar.h" />
+    <ClInclude Include="CSmartSearch.h" />
+    <ClInclude Include="CTimeSearch.h" />
+    <ClInclude Include="CViewPan.h" />
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="CWndObj.h" />
+    <ClInclude Include="CWndZoom.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -198,11 +221,34 @@
     <ClInclude Include="ViewSpeed.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAdjustment.cpp" />
+    <ClCompile Include="CameraGroup.cpp" />
+    <ClCompile Include="CameraUpDown.cpp" />
+    <ClCompile Include="CBackup.cpp" />
+    <ClCompile Include="CBookMark.cpp" />
     <ClCompile Include="CDrawVideoClass.cpp" />
+    <ClCompile Include="CExit.cpp" />
     <ClCompile Include="CFileEx.cpp" />
+    <ClCompile Include="CFileSystem.cpp" />
+    <ClCompile Include="CHourMin.cpp" />
     <ClCompile Include="CImageEx.cpp" />
+    <ClCompile Include="CLogViewer.cpp" />
+    <ClCompile Include="CPanorama.cpp" />
+    <ClCompile Include="CPlaySearch.cpp" />
+    <ClCompile Include="CPlayTab.cpp" />
+    <ClCompile Include="CPrint.cpp" />
+    <ClCompile Include="CPZoomBtn.cpp" />
+    <ClCompile Include="CRealPlay.cpp" />
+    <ClCompile Include="CSave.cpp" />
+    <ClCompile Include="CSelectFolder.cpp" />
+    <ClCompile Include="CSetup.cpp" />
+    <ClCompile Include="CSkinVerticleScrollbar.cpp" />
+    <ClCompile Include="CSmartSearch.cpp" />
+    <ClCompile Include="CTimeSearch.cpp" />
+    <ClCompile Include="CViewPan.cpp" />
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="CWndObj.cpp" />
+    <ClCompile Include="CWndZoom.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

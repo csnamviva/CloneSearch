@@ -14,6 +14,8 @@
 
 long CSearchCopyDlg::m_Split = 1;
 
+CWndObj* CSearchCopyDlg::m_WndObj = NULL;
+
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
 class CAboutDlg : public CDialogEx
@@ -66,6 +68,7 @@ BEGIN_MESSAGE_MAP(CSearchCopyDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 
@@ -115,23 +118,24 @@ BOOL CSearchCopyDlg::OnInitDialog()
 	strTmp = chPath;
 
 
-	m_strImageFolder = strTmp;
-	m_strImageFolder += "\\Image";
+	theApp.m_strImageFolder = strTmp;
+	theApp.m_strImageFolder += "\\Image";
 
-	m_SearchImage.m_strFileName = m_strImageFolder;
-	m_SearchImage.m_strFileName += "\\search.txt";
+	theApp.m_SearchImage.m_strFileName = theApp.m_strImageFolder;
+	theApp.m_SearchImage.m_strFileName += "\\search.txt";
 
-	m_LogoImage.m_strFileName = m_strImageFolder;
-	m_LogoImage.m_strFileName += "\\logo.txt";
+	theApp.m_LogoImage.m_strFileName = theApp.m_strImageFolder;
+	theApp.m_LogoImage.m_strFileName += "\\search.txt";
 
 	//m_strImageFolder += "\\search.txt";
 	//m_SearchImage.m_strFileName = m_strImageFolder;
 	m_pDc = GetDC();
 	OnMainSkinLoad();
 
-	//파일경로 확인해야함 경로가 다름
 	OnMainLogoLoad();
 	//InitSearch();
+
+	InitializeBtns();
 
 	char	szText[MAX_PATH];
 	CRect	rect;
@@ -155,24 +159,116 @@ BOOL CSearchCopyDlg::OnInitDialog()
 void CSearchCopyDlg::OnMainSkinLoad()
 {
 	stPICTURE_FILE	MainImageInfo;
-	MainImageInfo = m_ImageFunc.GetPictureInfo(m_strImageFolder, m_SearchImage.IniFileReadStringEx("Search Main", "Main Skin", _T("")), FALSE);
+	MainImageInfo = theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Main", "Main Skin", _T("")), FALSE);
 
 	m_wGUIWidth = MainImageInfo.iWidth;
 	m_wGUIHeight = MainImageInfo.iHeight;
 
 	MoveWindow(MainImageInfo.iLeft, MainImageInfo.iTop, m_wGUIWidth, m_wGUIHeight);
 	m_hMainBitmap = NULL;
-	m_hMainBitmap = m_ImageFunc.GetBitmap(m_pDc, MainImageInfo.strFileName);
+	m_hMainBitmap = theApp.m_ImageFunc.GetBitmap(m_pDc, MainImageInfo.strFileName);
 }
 
 void CSearchCopyDlg::OnMainLogoLoad()
 {
 	stPICTURE_FILE MainLogoInfo;
-	MainLogoInfo = m_ImageFunc.GetPictureInfo(m_strImageFolder,
-		m_LogoImage.IniFileReadStringEx("Search Main", "Logo", _T("")));
+	MainLogoInfo = theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder,
+		theApp.m_LogoImage.IniFileReadStringEx("Search Main", "Logo", _T("")));
 	m_hMainLogoBitmap = NULL;
-	m_hMainLogoBitmap = m_ImageFunc.GetBitmap(m_pDc, MainLogoInfo.strFileName);
+	m_hMainLogoBitmap = theApp.m_ImageFunc.GetBitmap(m_pDc, MainLogoInfo.strFileName);
 }
+
+
+void CSearchCopyDlg::InitializeBtns()
+{
+	// 각각의 원도우에 ID값을 부여한다.
+//[Search Timebar]
+	SetItems(this, &m_BtnCamUpDown[0], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Timebar", "Cam_Down", "cam_down.bmp,0,0,0,0,ID_BT_CAMDOWN,1")), &m_lstSearch, TRUE);
+	SetItems(this, &m_BtnCamUpDown[1], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Timebar", "Cam_up", "cam_up.bmp,0,0,0,0,ID_BT_CAMUP,2")), &m_lstSearch, TRUE);
+	SetItems(this, &m_BtnCamUpDown[2], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Timebar", "Cam_ip", "cam_ip.bmp,0,0,0,0,ID_BT_CAMIP,7")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnCamUpDown[3], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Timebar", "Cam_analog", "cam_analog.bmp,0,0,0,0,ID_BT_CAMANALOG,8")), &m_lstSearch, TRUE);//
+
+	SetItems(this, &m_BtnHourMin, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Timebar", "MINTIME", "hour.bmp,0,0,0,0,ID_BT_MINTIME,49")), &m_lstSearch, TRUE);
+	SetItems(this, &m_BtnCamGroup, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Timebar", "CamGroup", "cam1_16.bmp,0,0,0,0,ID_BT_CAM1_4,3")), &m_lstSearch, TRUE);
+
+	//[Search Screen]
+	SetItems(this, &m_BtnSplit[0], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Screen", "Split_1", "ch_1.bmp,0,0,0,0,ID_BT_SPLIT1,23")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnSplit[1], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Screen", "Split_4", "ch_4.bmp,0,0,0,0,ID_BT_SPLIT4,24")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnSplit[2], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Screen", "Split_9", "ch_9.bmp,0,0,0,0,ID_BT_SPLIT9,25")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnSplit[3], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Screen", "Split_16", "ch_16.bmp,0,0,0,0,ID_BT_SPLIT16,26")), &m_lstSearch, TRUE);//
+
+	SetItems(this, &m_BtnMagnification[0], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Screen", "X1_zoom", "x1_zoom.bmp,0,0,0,0,ID_BT_X1ZOOM,29")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnMagnification[1], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Screen", "X1.5_zoom", "x1.5_zoom.bmp,0,0,0,0,ID_BT_X15ZOOM,30")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnMagnification[2], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Screen", "X2_zoom", "x2_zoom.bmp,0,0,0,0,ID_BT_X2ZOOM,31")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnMagnification[3], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Screen", "Full", "full.bmp,0,0,0,0,ID_BT_FULL,32")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnPanorama, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Screen", "Panorama", "panorama.bmp,0,0,0,0,ID_BT_CHPANORAMA,28")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnZoom, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Screen", "pzoom", "zoom_btn.bmp,0,0,0,0,ID_BT_ZOOM,38")), &m_lstSearch, TRUE);//
+
+//[Search Button]
+	SetItems(this, &m_BtnAdjustment, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "Adjustment", "adjustment.bmp,0,0,0,0,ID_BT_ADJUSTMENT,36")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnPlayControl, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "playcontrol", "playcontrol.bmp,0,0,0,0,ID_BT_PLAYCONTROL,59")), &m_lstSearch, TRUE); // 2010.01.14
+	SetItems(this, &m_BtnPrint, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "Print", "print.bmp,0,0,0,0,ID_BT_PRINT,37")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnSave, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "Save", "save.bmp,0,0,0,0,ID_BT_SAVE,33")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnSmartSearch, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "Smartsearch", "smartsearch.bmp,0,0,0,0,ID_BT_SMARTSEARCH,34")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnLogViewer, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "Logviewer", "esearch.bmp,0,0,0,0,ID_BT_LOGVIEWER,56")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnBackup, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "Backup", "backup.bmp,0,0,0,0,ID_BT_BACKUP,57")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnTimeSearch, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "TimeSearch", "backup.bmp,0,0,0,0,ID_BT_TIMESEARCH,58")), &m_lstSearch, TRUE);//
+
+//[Search Play]
+	SetItems(this, &m_BtnPlaySearch[0], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Play", "PlayB1MinStep", "PlayB1MinStep.bmp,0,0,0,0,ID_BT_PLAYB1MINSTEP,39")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnPlaySearch[1], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Play", "PlayB1Step", "PlayB1Step.bmp,0,0,0,0,ID_BT_PLAYB1STEP,40")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnPlaySearch[2], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Play", "PlayF1MinStep", "PlayF1MinStep.bmp,0,0,0,0,ID_BT_PLAYF1MINSTEP,41")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnPlaySearch[3], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Play", "PlayF1Step", "PlayF1Step.bmp,0,0,0,0,ID_BT_PLAYF1STEP,42")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnPlaySearch[4], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Play", "PlayForward", "PlayForward.bmp,0,0,0,0,ID_BT_PLAYFORWARD,43")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnPlaySearch[5], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Play", "PlayReverse", "PlayReverse.bmp,0,0,0,0,ID_BT_PLAYREVERSE,44")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnPlaySearch[6], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Play", "Playstop", "Playstop.bmp,0,0,0,0,ID_BT_PLAYSTOP,45")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnRealPlay, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Play", "Realtime", "realtime.bmp,0,0,0,0,ID_BT_REALTIME,46")), &m_lstSearch, TRUE);//
+
+//[Search SpeedButton]
+	//SetItems(this, &m_BtnSpeedBt[0],&theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder,theApp.m_SearchImage.IniFileReadStringEx("Search SpeedButton","speed_m","speed_m.bmp,0,0,0,0,ID_BT_SPEEDMINUS,50")),&m_lstSearch,TRUE);//
+	//SetItems(this, &m_BtnSpeedBt[1],&theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder,theApp.m_SearchImage.IniFileReadStringEx("Search SpeedButton","speed_p","speed_p.bmp,0,0,0,0,ID_BT_SPEEDPLUS,51")),&m_lstSearch,TRUE);//
+
+	//[Search Button]
+	SetItems(this, &m_BtnBookMark[0], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "bookmark", "bookmark.bmp,0,0,0,0,ID_BT_BOOKMARK,53")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnBookMark[1], &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "bookmark_add", "bookmark_add.bmp,0,0,0,0,ID_BT_BOOKMARK_ADD,54")), &m_lstSearch, TRUE);//
+	SetItems(this, &m_BtnSelectFolder, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "selectfolder", "folderselect.bmp,0,0,0,0,ID_BT_SELECTFOLDER,55")), &m_lstSearch, TRUE);//
+
+//[Search Exit]
+	SetItems(this, &m_BtnExit, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "Exit", "exit.bmp,0,0,0,0,ID_BT_EXIT,47")), &m_lstSearch, TRUE);
+	SetItems(this, &m_BtnSetup, &theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Search Button", "Setup", "setup.bmp,0,0,0,0,ID_BT_SETUP,60")), &m_lstSearch, TRUE);
+
+//	 20131004
+	stPICTURE_FILE	pic;
+	pic = theApp.m_ImageFunc.GetPictureInfo(theApp.m_strImageFolder, theApp.m_SearchImage.IniFileReadStringEx("Timebar VScroll", "ScrollBar", "dummy.bmp,0,0,0,0,ID_BT_NONE,255"));
+	m_SkinVerticleScrollbar.Create(NULL, WS_CHILD | SS_LEFT | SS_NOTIFY | WS_VISIBLE | WS_GROUP, CRect(0, 0, 0, 0), this);
+	m_SkinVerticleScrollbar.SetWindowPos(NULL, pic.iLeft, pic.iTop, pic.iWidth, pic.iHeight, SWP_NOZORDER);
+	m_SkinVerticleScrollbar.Init();
+	m_SkinVerticleScrollbar.UpdateThumbPosition();
+	
+	//window
+	//for (int i = 0; i < MAX_VIEW; i++)
+	//{
+	//	m_Win[i]->m_nScreenNo = i;
+	//	//m_Win[i]->m_pOwner = this;
+	//}
+	
+	m_iAnalogChannelPressed = ID_BT_CAMANALOG; // 8
+	m_iIPChannelPressed = 0;
+	m_BtnCamUpDown[2].Refresh();
+	m_BtnCamUpDown[3].Refresh();
+}
+
+
+void CSearchCopyDlg::SetItems(CWnd* pWnd, CWndObj* pObj, stPICTURE_FILE* stpicinfo, CPtrList* pList, BOOL bAdd)
+{
+	pObj->SetPosition(stpicinfo);
+	// ID 설정
+	pObj->SetID(pWnd, stpicinfo);
+	// list에 추가
+	if (bAdd)   pList->AddTail(pObj);
+}
+
+
 
 void CSearchCopyDlg::SetSplit(long nSplit)
 {
@@ -273,7 +369,7 @@ void CSearchCopyDlg::SplitScreenUpdate(long nSplit, BOOL bfSplitDown)
 	for (i = 0; i < MAX_VIEW; i++) {
 		m_Win[i]->m_bShow = FALSE;
 	}
-	CWindow::m_ddraw->EmptyCanvas(); //t
+	CWindow::m_pdraw->EmptyCanvas(); //t
 
 	if (bfSplitDown == TRUE)
 	{
@@ -299,52 +395,52 @@ void CSearchCopyDlg::SplitScreenUpdate(long nSplit, BOOL bfSplitDown)
 		///////////////////////////////////////////////////////////////////
 	int		nSplitPage = m_SplitPage;
 
-	//t	if (m_nScreenMode)
+//	t if (m_nScreenMode)
 	CRect	rc[MAX_VIEW]; //t
-	//	switch (nSplit)
-	//	{
-	//	case 4:
-	//		m_bMulti = TRUE;  // 멀티 상태임을 의미
-	//		for (i = 0; i < 4; i++) { //t
-	//			rc[i] = GetSplit4Pos(i); //t
-	//		} //t
+		switch (nSplit)
+		{
+		case 4:
+			m_bMulti = TRUE;  // 멀티 상태임을 의미
+			for (i = 0; i < 4; i++) { //t
+				rc[i] = GetSplit4Pos(i); //t
+			} //t
 
-	//		for (i = 0; i < MAX_VIEW; i++)
-	//		{
-	//			//t				CRect	rc;
-	//			//t				rc = GetSplit4Pos(i);
+			for (i = 0; i < MAX_VIEW; i++)
+			{
+//				t				CRect	rc;
+//				t				rc = GetSplit4Pos(i);
 
-	//			if (nSplit * nSplitPage <= i && i < nSplit * (nSplitPage + 1))
-	//			{
-	//				if (m_iPanoPush && i != m_nCurCam)
-	//				{
-	//					m_Win[i]->m_bImageReady = FALSE;
-	//				}
-	//				m_btUsedChannel[i] = 1;
-	//				m_ViewChannel[i] = TRUE;
-	//				m_Win[i]->SetArea(&rc[i % 4]); //t
-	//				m_Win[i]->m_bShow = TRUE;
-	//				m_Win[i]->DrawImage();
-	//			}
-	//			else
-	//			{
-	//				CRect rt = CRect(0, 0, 0, 0); //t
-	//				m_Win[i]->SetArea(&rt); //t
-	//				m_Win[i]->m_bImageReady = FALSE;	// add GSS
-	//				m_Win[i]->m_bShow = FALSE;
-	//			}
-	//		}
-	//		m_FindFS->SetUsedChannels(m_btUsedChannel);
-	//		break;
-	//	}
-	//if (m_PlayID != ID_PL_STOP)
-	//{
-	//	//		TRACE("readdata thread started\n");
-	//	ResetEvent(hevent_readdatathread_pause);
-	//	SetEvent(hevent_readdatathread_start);
-	//}
+				if (nSplit * nSplitPage <= i && i < nSplit * (nSplitPage + 1))
+				{
+					if (m_iPanoPush && i != m_nCurCam)
+					{
+						m_Win[i]->m_bImageReady = FALSE;
+					}
+					m_btUsedChannel[i] = 1;
+					m_ViewChannel[i] = TRUE;
+					m_Win[i]->SetArea(&rc[i % 4]); //t
+					m_Win[i]->m_bShow = TRUE;
+					m_Win[i]->DrawImage();
+				}
+				else
+				{
+					CRect rt = CRect(0, 0, 0, 0); //t
+					m_Win[i]->SetArea(&rt); //t
+					m_Win[i]->m_bImageReady = FALSE;	// add GSS
+					m_Win[i]->m_bShow = FALSE;
+				}
+			}
+			m_FindFS->SetUsedChannels(m_btUsedChannel);
+			break;
+		}
+	if (m_PlayID != 0)
+	{
+//				TRACE("readdata thread started\n");
+		ResetEvent(hevent_readdatathread_pause);
+		SetEvent(hevent_readdatathread_start);
+	}
 
-	//	LeaveCriticalSection(&m_CriticalPlay);
+//		LeaveCriticalSection(&m_CriticalPlay);
 }
 
 
@@ -404,3 +500,69 @@ HCURSOR CSearchCopyDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CSearchCopyDlg::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CPtrList* pList;
+
+	pList = &m_lstSearch;   // 메인 화면에 사용되는 ITEM들 
+	POSITION pos = pList->GetTailPosition();
+	while (pos)
+	{
+		CWndObj* pWnd = (CWndObj*)pList->GetPrev(pos);
+		ASSERT(pWnd);
+
+		if (pWnd->PtInRect(point))
+		{
+			if (m_iAdjustPressed == ID_BT_ADJUSTMENT)
+			{
+				CSearchCopyDlg::m_WndObj = pWnd;
+				pWnd->OnLButtonDown(nFlags, point);
+				return;
+			}
+			else
+			{
+				CSearchCopyDlg::m_WndObj = pWnd; //image tool open
+				pWnd->OnLButtonDown(nFlags, point);
+				return;
+			}
+		}
+	}
+
+	//t --------------------------------------------------------------
+	//if (m_nScreenMode && m_iPanoPush != ID_BT_CHPANORAMA)
+	//{
+	//	int nCurCam = FindSelectedChannel(point);
+	//	if (nCurCam >= 0 && nCurCam != m_nCurCam) {
+	//		m_Win[nCurCam]->PostMessage(WM_LBUTTONDOWN, nFlags, MAKELPARAM(point.x, point.y));
+	//		return;
+	//	}
+	//}
+	//t --------------------------------------------------------------
+
+		//////0828 SDLEE
+	//if (m_bMoving)
+	//{
+	//	PostMessage(WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(point.x, point.y));
+	//}
+
+	CDialogEx::OnLButtonDown(nFlags, point);
+}
+
+
+CRect CSearchCopyDlg::GetSplit4Pos(int nChannel)
+{
+	CRect	rc;
+	int		nPosition = nChannel % 4;
+	int		x = nPosition % 2;
+	int		y = nPosition / 2;
+
+	rc.left = m_ViewPos[1].left + (m_ViewPos[1].right * x);
+	rc.top = m_ViewPos[1].top + (m_ViewPos[1].bottom * y);
+	rc.right = rc.left + m_ViewPos[1].right;
+	rc.bottom = rc.top + m_ViewPos[1].bottom;
+
+	return rc;
+}
